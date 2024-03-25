@@ -117,7 +117,7 @@ function Login() {
                 Login
               </button>
               <button
-                className="py-2 font-sm mt-4 font-medium rounded border-2 border-primary_light text-white hover:bg-primary_light"
+                className="py-2 font-sm mt-4 font-medium rounded border-2 border-primary_light hover:bg-primary_light"
                 onClick={handleDemo}
               >
                 Try as a Guest
