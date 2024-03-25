@@ -32,6 +32,11 @@ function NewTransaction() {
     setError(null);
     setSuccess(null);
 
+    if (details.amount <= 0) {
+      setError("Amount should be greater than 0");
+      return;
+    }
+
     const transactionDetails = {
       to: details.username,
       amount: details.amount,

@@ -78,6 +78,7 @@ function Profile() {
   const handleChangePassword = async () => {
     setError(null);
     setSuccess(null);
+    setLoading(true);
     const data = {
       oldPassword: details.currentPassword,
       newPassword: details.newPassword,
@@ -103,6 +104,8 @@ function Profile() {
       //   // Something happened in setting up the request that triggered an error
       //   setError("An error occurred. Please try again later.");
       // }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -215,6 +218,11 @@ function Profile() {
           >
             Confirm
           </button>
+          {loading && (
+            <div className="font-sm text-center mt-4 text-gray">
+              Processing...
+            </div>
+          )}
           {error && (
             <div className="bg-primary_dark dark:bg-primary_light p-1 rounded-md font-sm text-center mt-8 text-red-700 dark:text-red-600">
               {error}
