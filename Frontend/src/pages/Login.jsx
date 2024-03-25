@@ -41,6 +41,7 @@ function Login() {
 
     try {
       const response = await axios.post(`${base}/api/v2/users/login`, data);
+      console.log(response);
       if (response.data.success) setSuccess(response.data.data);
       const userDetails = {
         _id: response.data.message.user._id,
@@ -54,6 +55,7 @@ function Login() {
       dispatch(setData(userDetails));
       navigate("/");
     } catch (error) {
+      console.log(error);
       if (error.response) {
         // Server responded with an error
         const errorMessage = extractErrorMessage(error.response.data);

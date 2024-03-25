@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ApiError } from "../utils/apiError.js";
+import { ApiError, errorHandler } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
@@ -101,7 +101,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
     const isPasswordCorrect = await user.isPasswordCorrect(password);
     if (!isPasswordCorrect) {
-        throw new ApiError(400, "Incorrect password");
+        // throw new ApiError(400, "Incorrect password");
+        next(errorHandler(400, "incorrect password"));
     }
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
