@@ -52,28 +52,6 @@ function NewTransaction() {
       await fetchData(dispatch, userData);
     } catch (error) {
       setError(error.response.data.message);
-      // if (error.response) {
-      //   // Server responded with an error
-      //   const errorMessage = extractErrorMessage(error.response.data);
-      //   setError(errorMessage);
-      // } else if (error.request) {
-      //   // The request was made but no response was received
-      //   setError("No response from server. Please try again later.");
-      // } else {
-      //   // Something happened in setting up the request that triggered an error
-      //   setError("An error occurred. Please try again later.");
-      // }
-    }
-  };
-
-  const extractErrorMessage = (htmlString) => {
-    const regex = /<pre>(.*?)(?=<\s*\/pre|\s*<br>)/s;
-    const match = htmlString.match(regex);
-    if (match) {
-      return match[1];
-    } else {
-      const message = "Error message not found";
-      return message;
     }
   };
 
@@ -84,7 +62,7 @@ function NewTransaction() {
         onSubmit={handleSubmit}
         className="my-4 flex flex-col border-2 border-gray bg-[#eaebed] dark:bg-[#1d2a49] rounded-md p-4 gap-4"
       >
-        <label htmlFor="username" className="font-base font-medium">
+        <label htmlFor="username" className="font-sm font-medium">
           Username<span className="text-sent">*</span>
         </label>
         <input
@@ -92,18 +70,18 @@ function NewTransaction() {
           type="text"
           value={details.username}
           onChange={handleChange}
-          className="px-4 py-2 leading-4 font-sm rounded-md border border-gray dark:bg-bg_dark"
+          className="px-4 py-2 leading-4 font-sm rounded border border-gray dark:bg-bg_dark"
         />
-        <label htmlFor="amount" className="font-base font-medium">
+        <label htmlFor="amount" className="font-sm font-medium">
           Amount<span className="text-sent">*</span>
         </label>
         <input
           id="amount"
           type="number"
           onChange={handleChange}
-          className="px-4 py-2 leading-4 font-sm rounded-md border border-gray dark:bg-bg_dark"
+          className="px-4 py-2 leading-4 font-sm rounded border border-gray dark:bg-bg_dark"
         />
-        <label htmlFor="message" className="font-base font-medium">
+        <label htmlFor="message" className="font-sm font-medium">
           Message<span className="text-sent">*</span>
         </label>
         <textarea
@@ -111,10 +89,10 @@ function NewTransaction() {
           cols="20"
           rows="1"
           onChange={handleChange}
-          className="px-4 py-2 leading-4 font-sm border border-gray rounded-md resize-none dark:bg-bg_dark"
+          className="px-4 py-4 leading-4 font-sm border border-gray rounded resize-none dark:bg-bg_dark"
         ></textarea>
         <button
-          className="p-2 rounded-md font-sm text-white bg-primary_dark dark:bg-primary_light hover:bg-primary_light dark:hover:bg-primary_dark"
+          className="p-2 rounded font-sm text-white bg-primary_dark dark:bg-primary_light hover:bg-primary_light dark:hover:bg-primary_dark"
           type="submit"
         >
           Send <i className="ri-send-plane-2-fill"></i>

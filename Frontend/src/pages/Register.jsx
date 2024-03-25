@@ -53,44 +53,22 @@ function Register() {
       navigate("/login");
     } catch (error) {
       setError(error.response.data.message);
-      // if (error.response) {
-      //   // Server responded with an error
-      //   const errorMessage = extractErrorMessage(error.response.data);
-      //   setError(errorMessage);
-      // } else if (error.request) {
-      //   // The request was made but no response was received
-      //   setError("No response from server. Please try again later.");
-      // } else {
-      //   // Something happened in setting up the request that triggered an error
-      //   setError("An error occurred. Please try again later.");
-      // }
     } finally {
       setLoading(false);
     }
   };
 
-  const extractErrorMessage = (htmlString) => {
-    const regex = /<pre>(.*?)<br>/s;
-    const match = htmlString.match(regex);
-    if (match) {
-      return match[1];
-    } else {
-      const message = "Error message not found";
-      return message;
-    }
-  };
-
   return (
-    <>
+    <div className="mb-12">
       <div className="flex flex-col md:flex-row gap-8 md:gap-0 mt-12 md:mt-0 justify-center items-center">
         <div className="w-full md:w-1/2 text-center font-h2 font-bold">
           Money Transfer
         </div>
         <div className="w-full md:w-1/2">
           <div className="max-w-[380px] mx-auto flex flex-col justify-center gap-4 p-4 rounded-md shadow-md drop-shadow-md dark:shadow-gray">
-            <h2 className="font-h3 mb-4 font-semibold">Register</h2>
+            <h2 className="font-h5 mb-4 font-semibold">Register</h2>
             <form onSubmit={handleSubmit} className="flex flex-col">
-              <label htmlFor="profilePicture" className="font-base font-medium">
+              <label htmlFor="profilePicture" className="font-sm font-medium">
                 Profile Picture<span className="text-sent">*</span>
               </label>
               <input
@@ -99,41 +77,41 @@ function Register() {
                 onChange={handleFileChange}
                 className="mt-2 dark:bg-bg_dark"
               />
-              <label htmlFor="fullName" className="mt-4 font-base font-medium">
+              <label htmlFor="fullName" className="mt-4 font-sm font-medium">
                 Full Name<span className="text-sent">*</span>
               </label>
               <input
                 id="fullName"
                 type="text"
                 onChange={handleChange}
-                className="mt-2 px-4 py-1 leading-4 font-sm rounded-md border border-gray dark:bg-bg_dark"
+                className="mt-2 px-4 py-2 leading-4 font-sm rounded border border-gray dark:bg-bg_dark"
               />
-              <label htmlFor="username" className="mt-4 font-base font-medium">
+              <label htmlFor="username" className="mt-4 font-sm font-medium">
                 Username<span className="text-sent">*</span>
               </label>
               <input
                 id="username"
                 type="text"
                 onChange={handleChange}
-                className="mt-2 px-4 py-1 leading-4 font-sm rounded-md border border-gray dark:bg-bg_dark"
+                className="mt-2 px-4 py-2 leading-4 font-sm rounded border border-gray dark:bg-bg_dark"
               />
-              <label htmlFor="email" className="mt-4 font-base font-medium">
+              <label htmlFor="email" className="mt-4 font-sm font-medium">
                 Email<span className="text-sent">*</span>
               </label>
               <input
                 id="email"
                 type="text"
                 onChange={handleChange}
-                className="mt-2 px-4 py-1 leading-4 font-sm rounded-md border border-gray dark:bg-bg_dark"
+                className="mt-2 px-4 py-2 leading-4 font-sm rounded border border-gray dark:bg-bg_dark"
               />
-              <label htmlFor="password" className="mt-4 font-base font-medium">
+              <label htmlFor="password" className="mt-4 font-sm font-medium">
                 Password<span className="text-sent">*</span>
               </label>
               <input
                 id="password"
                 type="password"
                 onChange={handleChange}
-                className="mt-2 px-4 py-1 leading-4 font-sm rounded-md border border-gray dark:bg-bg_dark"
+                className="mt-2 px-4 py-2 leading-4 font-sm rounded border border-gray dark:bg-bg_dark"
               />
               {loading && (
                 <div className="font-sm text-center mt-2 text-gray">
@@ -151,7 +129,7 @@ function Register() {
                 </div>
               )}
               <button
-                className="py-1 font-h6 mt-4 font-medium rounded-md bg-primary_dark text-white hover:bg-primary_light"
+                className="py-2 md:py-1 font-h6 mt-4 font-medium rounded bg-primary_dark text-white hover:bg-primary_light"
                 type="submit"
               >
                 Register
@@ -167,7 +145,7 @@ function Register() {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

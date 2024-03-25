@@ -59,17 +59,6 @@ function Profile() {
       setImage(null);
     } catch (error) {
       setError(error.response.data.message);
-      // if (error.response) {
-      //   // Server responded with an error
-      //   const errorMessage = extractErrorMessage(error.response.data);
-      //   setImageError(errorMessage);
-      // } else if (error.request) {
-      //   // The request was made but no response was received
-      //   setImageError("No response from server. Please try again later.");
-      // } else {
-      //   // Something happened in setting up the request that triggered an error
-      //   setImageError("An error occurred. Please try again later.");
-      // }
     } finally {
       setLoading(false);
     }
@@ -93,30 +82,8 @@ function Profile() {
       }
     } catch (error) {
       setError(error.response.data.message);
-      // if (error.response) {
-      //   // Server responded with an error
-      //   const errorMessage = extractErrorMessage(error.response.data);
-      //   setError(errorMessage);
-      // } else if (error.request) {
-      //   // The request was made but no response was received
-      //   setError("No response from server. Please try again later.");
-      // } else {
-      //   // Something happened in setting up the request that triggered an error
-      //   setError("An error occurred. Please try again later.");
-      // }
     } finally {
       setLoading(false);
-    }
-  };
-
-  const extractErrorMessage = (htmlString) => {
-    const regex = /<pre>(.*?)(?=<\s*\/pre|\s*<br>)/s;
-    const match = htmlString.match(regex);
-    if (match) {
-      return match[1];
-    } else {
-      const message = "Error message not found";
-      return message;
     }
   };
 
@@ -132,7 +99,7 @@ function Profile() {
           />
           <label
             htmlFor="profilePicture"
-            className="bg-[#2372f3] p-1 rounded-md cursor-pointer text-white"
+            className="bg-[#2372f3] p-1 rounded cursor-pointer text-white"
           >
             Select Image
           </label>
@@ -145,7 +112,7 @@ function Profile() {
           />
           <button
             onClick={handleImageChange}
-            className="p-1 rounded-md font-sm text-white bg-primary_dark dark:bg-primary_light hover:bg-primary_light dark:hover:bg-primary_dark ring-primary_dark dark:hover:ring-primary_light hover:ring-2"
+            className="p-1 rounded font-sm text-white bg-primary_dark dark:bg-primary_light hover:bg-primary_light dark:hover:bg-primary_dark ring-primary_dark dark:hover:ring-primary_light hover:ring-2"
           >
             Change Image
           </button>
@@ -201,7 +168,7 @@ function Profile() {
             type="text"
             id="currentPassword"
             onChange={handleChange}
-            className="max-w-[200px] leading-4 p-1 font-sm text-text_light dark:text-text_dark rounded-md border border-gray dark:bg-bg_dark"
+            className="max-w-[200px] leading-4 p-2 font-sm text-text_light dark:text-text_dark rounded border border-gray dark:bg-bg_dark"
           />
           <label htmlFor="newPassword" className="font-semibold">
             New Password
@@ -210,19 +177,14 @@ function Profile() {
             type="text"
             id="newPassword"
             onChange={handleChange}
-            className="max-w-[200px] leading-4 p-1 font-sm text-text_light dark:text-text_dark rounded-md border border-gray dark:bg-bg_dark"
+            className="max-w-[200px] leading-4 p-2 font-sm text-text_light dark:text-text_dark rounded border border-gray dark:bg-bg_dark"
           />
           <button
-            className="max-w-[200px] p-1 rounded-md font-sm text-white bg-primary_dark dark:bg-primary_light hover:bg-primary_light dark:hover:bg-primary_dark ring-primary_dark dark:hover:ring-primary_light hover:ring-2"
+            className="max-w-[200px] p-1 rounded font-sm text-white bg-primary_dark dark:bg-primary_light hover:bg-primary_light dark:hover:bg-primary_dark ring-primary_dark dark:hover:ring-primary_light hover:ring-2"
             onClick={handleChangePassword}
           >
             Confirm
           </button>
-          {loading && (
-            <div className="font-sm text-center mt-4 text-gray">
-              Processing...
-            </div>
-          )}
           {error && (
             <div className="bg-primary_dark dark:bg-primary_light p-1 rounded-md font-sm text-center mt-8 text-red-700 dark:text-red-600">
               {error}

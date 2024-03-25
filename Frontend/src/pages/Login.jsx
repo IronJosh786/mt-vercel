@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { base } from "../../constant.js";
 import Footer from "../components/Footer.jsx";
+import conf from "../conf/conf.js";
 
 function Login() {
   const dispatch = useDispatch();
@@ -28,6 +29,12 @@ function Login() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleDemo = (e) => {
+    (formData.emailOrUsername = conf.testusername),
+      (formData.password = conf.testpassword),
+      handleSubmit(e);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -41,7 +48,6 @@ function Login() {
 
     try {
       const response = await axios.post(`${base}/api/v2/users/login`, data);
-      // console.log(response);
       if (response.data.success) setSuccess(response.data.data);
       const userDetails = {
         _id: response.data.message.user._id,
@@ -56,31 +62,8 @@ function Login() {
       navigate("/");
     } catch (error) {
       setError(error.response.data.message);
-      // console.log(error);
-      // if (error.response) {
-      //   // Server responded with an error
-      //   const errorMessage = extractErrorMessage(error.response.data);
-      //   setError(errorMessage);
-      // } else if (error.request) {
-      //   // The request was made but no response was received
-      //   setError("No response from server. Please try again later.");
-      // } else {
-      //   // Something happened in setting up the request that triggered an error
-      //   setError("An error occurred. Please try again later.");
-      // }
     } finally {
       setLoading(false);
-    }
-  };
-
-  const extractErrorMessage = (htmlString) => {
-    const regex = /<pre>(.*?)<br>/s;
-    const match = htmlString.match(regex);
-    if (match) {
-      return match[1];
-    } else {
-      const message = "Error message not found";
-      return message;
     }
   };
 
@@ -92,28 +75,25 @@ function Login() {
         </div>
         <div className="w-full md:w-1/2">
           <div className="max-w-[380px] mx-auto flex flex-col justify-center gap-4 p-4 rounded-md shadow-md drop-shadow-md dark:shadow-gray">
-            <h2 className="font-h3 mb-4 font-semibold">Login</h2>
+            <h2 className="font-h5 mb-4 font-semibold">Login</h2>
             <form onSubmit={handleSubmit} className="flex flex-col">
-              <label
-                htmlFor="emailOrUsername"
-                className="font-base font-medium"
-              >
+              <label htmlFor="emailOrUsername" className="font-sm font-medium">
                 Username<span className="text-sent">*</span>
               </label>
               <input
                 id="emailOrUsername"
                 type="text"
                 onChange={handleChange}
-                className="mt-2 px-4 py-1 leading-4 font-sm rounded-md border border-gray dark:bg-bg_dark"
+                className="mt-2 px-4 py-2 leading-4 font-sm rounded border border-gray dark:bg-bg_dark"
               />
-              <label htmlFor="password" className="mt-4 font-base font-medium">
+              <label htmlFor="password" className="mt-4 font-sm font-medium">
                 Password<span className="text-sent">*</span>
               </label>
               <input
                 id="password"
                 type="password"
                 onChange={handleChange}
-                className="mt-2 px-4 py-1 leading-4 font-sm rounded-md border border-gray dark:bg-bg_dark"
+                className="mt-2 px-4 py-2 leading-4 font-sm rounded border border-gray dark:bg-bg_dark"
               />
               {loading && (
                 <div className="font-sm text-center mt-4 text-gray">
@@ -131,10 +111,16 @@ function Login() {
                 </div>
               )}
               <button
-                className="py-1 font-h6 mt-8 font-medium rounded-md bg-primary_dark text-white hover:bg-primary_light"
+                className="py-2 md:py-1 font-h6 mt-8 font-medium rounded bg-primary_dark text-white hover:bg-primary_light"
                 type="submit"
               >
                 Login
+              </button>
+              <button
+                className="py-2 font-sm mt-4 font-medium rounded border-2 border-primary_light text-white hover:bg-primary_light"
+                onClick={handleDemo}
+              >
+                Try as a Guest
               </button>
               <p className="mt-2 font-sm text-center">
                 Don't have an account?{" "}
