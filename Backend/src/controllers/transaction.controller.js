@@ -14,7 +14,11 @@ const newTransaction = asyncHandler(async (req, res) => {
     amount = parseInt(amount);
 
     if (req.user?.username === to) {
-        throw new ApiError(400, "Cannot send to self");
+        // throw new ApiError(400, "Cannot send to self");
+        await session.abortTransaction();
+        return res
+            .status(400)
+            .json({ success: false, message: "Cannot send to self" });
     }
 
     try {
@@ -26,11 +30,20 @@ const newTransaction = asyncHandler(async (req, res) => {
         }).session(session);
 
         if (!sender || !receiver) {
-            throw new ApiError(404, "Sender or Receiver not found");
+            // throw new ApiError(404, "Sender or Receiver not found");
+            await session.abortTransaction();
+            return res.status(404).json({
+                success: false,
+                message: "Sender or Receiver not found",
+            });
         }
 
         if (sender.balance < amount) {
-            throw new ApiError(400, "Insufficient funds");
+            // throw new ApiError(400, "Insufficient funds");
+            await session.abortTransaction();
+            return res
+                .status(400)
+                .json({ success: false, message: "Insufficient funds" });
         }
 
         // Update sender's balance
@@ -60,7 +73,12 @@ const newTransaction = asyncHandler(async (req, res) => {
         );
 
         if (!transaction) {
-            throw new ApiError(500, "Could not complete the transaction");
+            // throw new ApiError(500, "Could not complete the transaction");
+            await session.abortTransaction();
+            return res.status(500).json({
+                success: false,
+                message: "Could not complete the transaction",
+            });
         }
         await session.commitTransaction();
         commited = true;
@@ -74,7 +92,10 @@ const newTransaction = asyncHandler(async (req, res) => {
             await session.abortTransaction();
         }
         session.endSession();
-        throw new ApiError(400, "Transaction failed", error);
+        // throw new ApiError(400, "Transaction failed", error);
+        return res
+            .status(400)
+            .json({ success: false, message: "Transaction failed" });
     }
 });
 

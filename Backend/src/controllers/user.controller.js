@@ -28,11 +28,15 @@ const registerUser = asyncHandler(async (req, res) => {
             (field) => !field || field.trim() === ""
         )
     ) {
-        throw new ApiError(400, "All fields are required");
+        return res
+            .status(400)
+            .json({ success: false, message: "All fields are required" });
     }
 
     if (!localFilePath) {
-        throw new ApiError(400, "Profile picture is required");
+        return res
+            .status(400)
+            .json({ success: false, message: "Profile picture is required" });
     }
 
     const isPresent = await MoneyUser.findOne({
@@ -40,19 +44,19 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 
     if (isPresent) {
-        throw new ApiError(
-            400,
-            "Provided Username/Email has already been taken"
-        );
+        return res.status(400).json({
+            success: false,
+            message: "Provided Username/Email has already been taken",
+        });
     }
 
     const profilePicturePath = await uploadOnCloudinary(localFilePath);
 
     if (!profilePicturePath.url) {
-        throw new ApiError(
-            500,
-            "Could not upload the profile picture on cloudinary"
-        );
+        return res.status(500).json({
+            success: false,
+            message: "Could not upload the profile picture on cloudinary",
+        });
     }
 
     const user = await MoneyUser.create({
@@ -64,7 +68,9 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 
     if (!user) {
-        throw new ApiError(500, "Could not register the user");
+        return res
+            .status(500)
+            .json({ success: false, message: "Could not register the user" });
     }
 
     const newUser = await MoneyUser.findById(user._id).select(
@@ -84,11 +90,15 @@ const loginUser = asyncHandler(async (req, res, next) => {
         (email && email.trim() === "") ||
         (username && username.trim() === "")
     ) {
-        throw new ApiError(400, "Invalid Username/Email");
+        return res
+            .status(400)
+            .json({ success: false, message: "Invalid Username/Email" });
     }
 
     if (!password || password.trim() === "") {
-        throw new ApiError(400, "Password is required");
+        return res
+            .status(400)
+            .json({ success: false, message: "Password is required" });
     }
 
     const user = await MoneyUser.findOne({
@@ -96,16 +106,16 @@ const loginUser = asyncHandler(async (req, res, next) => {
     });
 
     if (!user) {
-        throw new ApiError(400, "User does not exists");
+        return res
+            .status(404)
+            .json({ success: false, message: "User does not exists" });
     }
 
     const isPasswordCorrect = await user.isPasswordCorrect(password);
     if (!isPasswordCorrect) {
-        // throw new ApiError(400, "Incorrect password");
-        // next(errorHandler(400, "incorrect password"));
         return res
             .status(400)
-            .json({ success: false, message: "invalid password" });
+            .json({ success: false, message: "Invalid Password" });
     }
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
@@ -116,7 +126,9 @@ const loginUser = asyncHandler(async (req, res, next) => {
         "-password -refreshToken"
     );
     if (!loggedInUser) {
-        throw new ApiError(500, "Could not login the user");
+        return res
+            .status(500)
+            .json({ success: false, message: "Could not login the user" });
     }
 
     const options = {
@@ -217,17 +229,24 @@ const changePassword = asyncHandler(async (req, res) => {
         !newPassword ||
         newPassword.trim() === ""
     ) {
-        throw new ApiError(400, "Both the passwords are required");
+        return res.status(400).json({
+            success: false,
+            message: "Both the passwords are required",
+        });
     }
 
     const user = await MoneyUser.findById(req.user?._id);
     if (!user) {
-        throw new ApiError(400, "User not found");
+        return res
+            .status(404)
+            .json({ success: false, message: "User not found" });
     }
 
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
     if (!isPasswordCorrect) {
-        throw new ApiError(400, "Incorrect old password");
+        return res
+            .status(400)
+            .json({ success: false, message: "Incorrect old password" });
     }
 
     user.password = newPassword;
@@ -237,7 +256,9 @@ const changePassword = asyncHandler(async (req, res) => {
         "-password -refreshToken"
     );
     if (!updatedUser) {
-        throw new ApiError(500, "Could not find the user");
+        return res
+            .status(404)
+            .json({ success: false, message: "Could not find the user" });
     }
 
     return res
@@ -286,20 +307,24 @@ const updateUserDetails = asyncHandler(async (req, res) => {
 const updateUserProfilePicture = asyncHandler(async (req, res) => {
     const localFilePath = req.file?.path;
     if (!localFilePath) {
-        throw new ApiError(400, "Profile picture is required");
+        return res
+            .status(400)
+            .json({ success: false, message: "Profile picture is required" });
     }
 
     const user = await MoneyUser.findById(req.user?._id);
     if (!user) {
-        throw new ApiError(400, "User not found");
+        return res
+            .status(404)
+            .json({ success: false, message: "User not found" });
     }
 
     const profilePicturePath = await uploadOnCloudinary(localFilePath);
     if (!profilePicturePath.url) {
-        throw new ApiError(
-            500,
-            "Could not upload the profile picture on cloudinary"
-        );
+        return res.status(500).json({
+            success: false,
+            message: "Could not upload the profile picture on cloudinary",
+        });
     }
 
     const updatedUser = await MoneyUser.findByIdAndUpdate(
@@ -309,7 +334,10 @@ const updateUserProfilePicture = asyncHandler(async (req, res) => {
     ).select("-password -refreshToken");
 
     if (!updatedUser) {
-        throw new ApiError(500, "Could not update the user profile picture");
+        return res.status(500).json({
+            success: false,
+            message: "Could not update the user profile picture",
+        });
     }
 
     return res
