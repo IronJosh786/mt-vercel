@@ -1,9 +1,6 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import path from "path";
-
-const __dirname = path.resolve();
 
 const app = express();
 
@@ -29,10 +26,10 @@ app.use("/api/v2/users", userRouter);
 app.use("/api/v2/transactions", transactionRouter);
 app.use("/api/v2/health", healthRouter);
 
-app.use(express.static(path.join(__dirname, "/Frontend/dist")));
+app.use(express.static(path.join(__dirname, "../../Frontend/dist")));
 
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "Frontend", "dist", "index.html"));
+    res.sendFile(path.join(__dirname, "../../Frontend/dist/index.html"));
 });
 
 export { app };
