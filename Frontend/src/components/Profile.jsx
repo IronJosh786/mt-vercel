@@ -58,17 +58,18 @@ function Profile() {
       await fetchData(dispatch, userData);
       setImage(null);
     } catch (error) {
-      if (error.response) {
-        // Server responded with an error
-        const errorMessage = extractErrorMessage(error.response.data);
-        setImageError(errorMessage);
-      } else if (error.request) {
-        // The request was made but no response was received
-        setImageError("No response from server. Please try again later.");
-      } else {
-        // Something happened in setting up the request that triggered an error
-        setImageError("An error occurred. Please try again later.");
-      }
+      setError(error.response.data.message);
+      // if (error.response) {
+      //   // Server responded with an error
+      //   const errorMessage = extractErrorMessage(error.response.data);
+      //   setImageError(errorMessage);
+      // } else if (error.request) {
+      //   // The request was made but no response was received
+      //   setImageError("No response from server. Please try again later.");
+      // } else {
+      //   // Something happened in setting up the request that triggered an error
+      //   setImageError("An error occurred. Please try again later.");
+      // }
     } finally {
       setLoading(false);
     }
@@ -90,17 +91,18 @@ function Profile() {
         setSuccess("Password updated");
       }
     } catch (error) {
-      if (error.response) {
-        // Server responded with an error
-        const errorMessage = extractErrorMessage(error.response.data);
-        setError(errorMessage);
-      } else if (error.request) {
-        // The request was made but no response was received
-        setError("No response from server. Please try again later.");
-      } else {
-        // Something happened in setting up the request that triggered an error
-        setError("An error occurred. Please try again later.");
-      }
+      setError(error.response.data.message);
+      // if (error.response) {
+      //   // Server responded with an error
+      //   const errorMessage = extractErrorMessage(error.response.data);
+      //   setError(errorMessage);
+      // } else if (error.request) {
+      //   // The request was made but no response was received
+      //   setError("No response from server. Please try again later.");
+      // } else {
+      //   // Something happened in setting up the request that triggered an error
+      //   setError("An error occurred. Please try again later.");
+      // }
     }
   };
 

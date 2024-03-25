@@ -52,17 +52,18 @@ function Register() {
       if (response.data.success) setSuccess(response.data.data);
       navigate("/login");
     } catch (error) {
-      if (error.response) {
-        // Server responded with an error
-        const errorMessage = extractErrorMessage(error.response.data);
-        setError(errorMessage);
-      } else if (error.request) {
-        // The request was made but no response was received
-        setError("No response from server. Please try again later.");
-      } else {
-        // Something happened in setting up the request that triggered an error
-        setError("An error occurred. Please try again later.");
-      }
+      setError(error.response.data.message);
+      // if (error.response) {
+      //   // Server responded with an error
+      //   const errorMessage = extractErrorMessage(error.response.data);
+      //   setError(errorMessage);
+      // } else if (error.request) {
+      //   // The request was made but no response was received
+      //   setError("No response from server. Please try again later.");
+      // } else {
+      //   // Something happened in setting up the request that triggered an error
+      //   setError("An error occurred. Please try again later.");
+      // }
     } finally {
       setLoading(false);
     }

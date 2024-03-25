@@ -41,7 +41,7 @@ function Login() {
 
     try {
       const response = await axios.post(`${base}/api/v2/users/login`, data);
-      console.log(response);
+      // console.log(response);
       if (response.data.success) setSuccess(response.data.data);
       const userDetails = {
         _id: response.data.message.user._id,
@@ -55,18 +55,19 @@ function Login() {
       dispatch(setData(userDetails));
       navigate("/");
     } catch (error) {
-      console.log(error);
-      if (error.response) {
-        // Server responded with an error
-        const errorMessage = extractErrorMessage(error.response.data);
-        setError(errorMessage);
-      } else if (error.request) {
-        // The request was made but no response was received
-        setError("No response from server. Please try again later.");
-      } else {
-        // Something happened in setting up the request that triggered an error
-        setError("An error occurred. Please try again later.");
-      }
+      setError(error.response.data.message);
+      // console.log(error);
+      // if (error.response) {
+      //   // Server responded with an error
+      //   const errorMessage = extractErrorMessage(error.response.data);
+      //   setError(errorMessage);
+      // } else if (error.request) {
+      //   // The request was made but no response was received
+      //   setError("No response from server. Please try again later.");
+      // } else {
+      //   // Something happened in setting up the request that triggered an error
+      //   setError("An error occurred. Please try again later.");
+      // }
     } finally {
       setLoading(false);
     }
