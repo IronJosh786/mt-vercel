@@ -12,6 +12,7 @@ app.use(
 );
 
 app.set("trust proxy", 1);
+app.use(express.static("public"));
 app.use(express.json({ limit: "16kb" })); // from json
 app.use(express.urlencoded({ extended: true, limit: "16kb" })); // from url
 app.use(cookieParser()); // for secure CRUD operations from server to browser
