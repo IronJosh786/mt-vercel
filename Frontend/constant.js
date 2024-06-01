@@ -1,1 +1,1 @@
-export const base = "https://mern-money-transfer.onrender.com";
+export const base = "https://mt-vercel.vercel.app";
