@@ -1,13 +1,23 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
 import Login from "../pages/Login";
+import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Auth() {
   const { userData } = useSelector((state) => state.user);
 
-  const token =
-    userData?.token || JSON.parse(localStorage.getItem("userData")) || "";
+  let token = userData?.token ? userData?.token : null;
+
+  if (!token) {
+    const localStorageItem = JSON.parse(localStorage.getItem("userData"));
+    if (localStorageItem) {
+      const isExpired = Date.now() > localStorageItem.expiry;
+      if (!isExpired) {
+        token = localStorageItem.token;
+      }
+    }
+  }
+
   if (!token) {
     return <Login />;
   }

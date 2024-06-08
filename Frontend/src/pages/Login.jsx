@@ -57,6 +57,7 @@ function Login() {
         profilePictureUrl: response.data.message.user.profilePicture,
         balance: response.data.message.user.balance,
         token: response.data.message.accessToken,
+        expiry: Date.now() + 24 * 60 * 60 * 1000,
       };
       dispatch(setData(userDetails));
       navigate("/");
